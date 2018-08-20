@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "b9b3edb0-8638-4103-8a0c-481dc9606b5e",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "Q版中国古代军队塔防游戏资源-白旗(BaiQi)_爱给网_aigei_com": {
+      "ver": "1.0.3",
+      "uuid": "4e7c3eca-4607-4899-8963-b391181dd962",
+      "rawTextureUuid": "b9b3edb0-8638-4103-8a0c-481dc9606b5e",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 499,
+      "height": 315,
+      "rawWidth": 499,
+      "rawHeight": 315,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
