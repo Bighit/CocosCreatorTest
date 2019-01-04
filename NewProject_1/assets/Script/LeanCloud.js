@@ -8,71 +8,96 @@ AV.init({
 });
 var { Query, User } = AV;
 var LCFormula = AV.Object.extend('Formula');
-var LCItems = AV.Object.extend('Items');
+var LCItems = AV.Object.extend('Items');//name type desc level price itemid
 var LCUserShop = AV.Object.extend('re_UserShop'); // shop user shopname
-var LCShopItems = AV.Object.extend('re_ShopItems');//
+var LCShopItems = AV.Object.extend('re_ShopItems');// userShop item
 var LCShop = AV.Object.extend('Shop');
 
 
-var GLobal = cc.Class({
+var LCManager = cc.Class({
     properties: {
         userInfo: null,
-        
     },
-    login: function (userName, password, callback) {
+    statics: {
+        _instance: LCManager,
+        share: function () {
+            if (!this._instance) {
+                this._instance = new LCManager();
+            }
+            return this._instance;
+        }
+    },
+    login: (userName, password, callback) => {
 
-        User.logIn(userName, password).then(function (object) {
-            cc.log(object.get('username'));
-            this.userInfo = object;
-            callback(true);
+        User.logIn(userName, password).then(object => {
+            cc.log(object.get('username') + '登陆成功');
+            LCManager.share().userInfo = object;
+            callback(true, object);
         }, function (error) {
             cc.log(error);
-            callback(false);
+            callback(false, error);
 
         });
     },
-    register: function (userName, password, callback) {
+    register: (userName, password, callback) => {
         var user = new User();
         user.setUsername(userName);
         user.setPassword(password);
-        user.signUp().then(function (logedUser) {
-            cc.log(logedUser.get('username'));
-            callback(true);
+        user.signUp().then(object => {
+            cc.log(object.get('username') + '注册成功');
+            callback(true, object);
         }, function (error) {
             cc.log(error);
-            callback(false);
+            callback(false, error);
         }
         );
     },
-    queryWithObjectName: function (objectName, paramsData,shouldHasUserInfo,callback) {
+    queryWithObjectName: (objectName, paramsData, shouldHasUserInfo, callback) => {
         var query = new Query(objectName);
 
-        if (shouldHasUserInfo) {            
-            query.equalTo('user',this.user);
+        if (shouldHasUserInfo) {
+            query.equalTo('user', LCManager.share().userInfo);
             query.include('user');
         } else {
-            
+            // query.equalTo('')
         }
-        query.find().then(function (results) {
-            cc.log(objectName+results);
-            callback(true);
+        query.find().then(object => {
+            cc.log(objectName + object);
+            callback(true, object);
         }, function (error) {
             cc.log(error);
-            callback(false);
+            callback(false, error);
         });
     },
-    createShop: function (data) {
+    createShop: (shopName, shop, callback) => {
         var userShop = new LCUserShop();
         // 设置名称
-        userShop.set('name', '工作');
-        // 设置优先级
-        todoFolder.set('priority', 1);
-        todoFolder.save().then(function (todo) {
-            console.log('objectId is ' + todo.id);
+        userShop.set('shopName', shopName);
+        userShop.set('shop', shop);
+        userShop.set('user', LCManager.share().userInfo);
+        userShop.save().then(object => {
+            console.log('objectId is ' + object.id);
+            callback(true, object);
         }, function (error) {
             console.error(error);
+            callback(false, error);
+        });
+    },
+    addItemsForShop: (itemsArray, userShop, callback) => {
+
+        var items = [];
+        itemsArray.forEach(element => {
+            var shopItem = new LCShopItems();
+            shopItem.set('userShop', userShop);
+            shopItem.set('item', element);
+            items.push(shopItem);
+        });
+        AV.Object.saveAll(items).then(object => {
+            callback(true, object);
+        }, function (error) {
+            callback(false, error);
         });
     }
 
 });
-export default { AV, GLobal };
+export default { AV, LCManager };
