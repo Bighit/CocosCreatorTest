@@ -1,0 +1,53 @@
+2019-01-05T16:02:54.396Z - normal: Load ~/.CocosCreator/settings.json
+2019-01-05T16:02:54.400Z - normal: checking language setting...
+2019-01-05T16:02:54.401Z - normal: Language: zh
+2019-01-05T16:02:55.167Z - success: protocol editor-framework registered
+2019-01-05T16:02:55.167Z - success: protocol app registered
+2019-01-05T16:02:55.168Z - success: protocol theme registered
+2019-01-05T16:02:55.168Z - success: protocol packages registered
+2019-01-05T16:02:55.168Z - success: protocol unpack registerred
+2019-01-05T16:02:55.168Z - success: protocol disable-commonjs registerred
+2019-01-05T16:02:55.271Z - normal: connected!
+2019-01-05T16:02:55.275Z - normal: Check project /Users/hty/CocosCreatorTest/NewProject_1
+2019-01-05T16:02:55.277Z - normal: Initializing Cocos2d
+2019-01-05T16:02:55.497Z - normal: Initializing Asset Database
+2019-01-05T16:02:55.530Z - success: protocol uuid registerred
+2019-01-05T16:02:55.530Z - success: protocol db registerred
+2019-01-05T16:02:55.530Z - success: protocol thumbnail registerred
+2019-01-05T16:02:55.531Z - normal: Loading editor/builtin packages
+2019-01-05T16:02:55.549Z - success: anysdk loaded
+2019-01-05T16:02:55.660Z - success: assets loaded
+2019-01-05T16:02:55.664Z - success: builder loaded
+2019-01-05T16:02:55.667Z - success: cocos-analytics loaded
+2019-01-05T16:02:55.672Z - success: console loaded
+2019-01-05T16:02:55.676Z - success: hierarchy loaded
+2019-01-05T16:02:55.681Z - success: inspector loaded
+2019-01-05T16:02:55.682Z - success: keystore loaded
+2019-01-05T16:02:55.687Z - success: node-library loaded
+2019-01-05T16:02:55.689Z - success: package-asset loaded
+2019-01-05T16:02:55.691Z - success: preferences loaded
+2019-01-05T16:02:55.694Z - success: project-exporter loaded
+2019-01-05T16:02:55.712Z - success: project-importer loaded
+2019-01-05T16:02:55.715Z - success: project-settings loaded
+2019-01-05T16:02:55.719Z - success: ui-kit loaded
+2019-01-05T16:02:55.725Z - success: ui-grid loaded
+2019-01-05T16:02:55.736Z - success: scene loaded
+2019-01-05T16:02:55.737Z - success: sprite-editor loaded
+2019-01-05T16:02:55.743Z - success: store loaded
+2019-01-05T16:02:55.750Z - success: timeline loaded
+2019-01-05T16:02:55.750Z - normal: Loading builtin packages
+2019-01-05T16:02:55.754Z - success: asset-db-debugger loaded
+2019-01-05T16:02:55.755Z - success: color-picker loaded
+2019-01-05T16:02:55.759Z - success: package-manager loaded
+2019-01-05T16:02:55.764Z - success: sdkbox loaded
+2019-01-05T16:02:55.769Z - success: tester loaded
+2019-01-05T16:02:55.778Z - success: ui-kit-preview-extra loaded
+2019-01-05T16:02:55.782Z - success: ui-kit-preview loaded
+2019-01-05T16:02:55.786Z - success: ui-tree loaded
+2019-01-05T16:02:56.950Z - normal: Initializing project /Users/hty/CocosCreatorTest/NewProject_1
+2019-01-05T16:02:56.953Z - normal: Loading packages
+2019-01-05T16:02:56.958Z - normal: Watching packages
+2019-01-05T16:02:56.975Z - normal: Run Application
+2019-01-05T16:02:57.764Z - success: preview server running at http://localhost:7456
+2019-01-05T16:03:03.446Z - normal: 1.8.1
+2019-01-05T16:03:03.950Z - warn: Should not specify class name Card for Component which defines in project.

@@ -20,14 +20,14 @@ var LCManager = cc.Class({
     },
     statics: {
         _instance: LCManager,
-        share: function () {
+        share () {
             if (!this._instance) {
                 this._instance = new LCManager();
             }
             return this._instance;
         }
     },
-    login: (userName, password, callback) => {
+    login(userName, password, callback)  {
 
         User.logIn(userName, password).then(object => {
             cc.log(object.get('username') + '登陆成功');
@@ -39,7 +39,7 @@ var LCManager = cc.Class({
 
         });
     },
-    register: (userName, password, callback) => {
+    register(userName, password, callback)  {
         var user = new User();
         user.setUsername(userName);
         user.setPassword(password);
@@ -52,7 +52,7 @@ var LCManager = cc.Class({
         }
         );
     },
-    queryWithObjectName: (objectName, paramsData, shouldHasUserInfo, callback) => {
+    queryWithObjectName (objectName, paramsData, shouldHasUserInfo, callback) {
         var query = new Query(objectName);
 
         if (shouldHasUserInfo) {
@@ -69,7 +69,7 @@ var LCManager = cc.Class({
             callback(false, error);
         });
     },
-    createShop: (shopName, shop, callback) => {
+    createShop(shopName, shop, callback) {
         var userShop = new LCUserShop();
         // 设置名称
         userShop.set('shopName', shopName);
@@ -83,7 +83,7 @@ var LCManager = cc.Class({
             callback(false, error);
         });
     },
-    addItemsForShop: (itemsArray, userShop, callback) => {
+    addItemsForShop (itemsArray, userShop, callback) {
 
         var items = [];
         itemsArray.forEach(element => {

@@ -22,30 +22,30 @@ cc.Class({
   },
 
   // use this for initialization
-  onLoad: function () {
+  onLoad () {
     cc.log('loaded');
-    LCManager.share().login('hty', '123456', (isSuccess, result) => {
-      LCManager.share().queryWithObjectName('re_UserShop', null, true, (isSuccess1, result1) => {
-        result1.forEach(element => {
-          LCManager.share().queryWithObjectName('Items', null, false, (isSuccess2, result2) => {
-            if (isSuccess1 && isSuccess2) {
-              LCManager.share().addItemsForShop(result2, element, (isSuccess3, result3) => {
-                cc.log('添加items成功'+result3);
-              });
-            }
-          });
-        });
+    // LCManager.share().login('hty', '123456', (isSuccess, result) => {
+    //   LCManager.share().queryWithObjectName('re_UserShop', null, true, (isSuccess1, result1) => {
+    //     result1.forEach(element => {
+    //       LCManager.share().queryWithObjectName('Items', null, false, (isSuccess2, result2) => {
+    //         if (isSuccess1 && isSuccess2) {
+    //           LCManager.share().addItemsForShop(result2, element, (isSuccess3, result3) => {
+    //             cc.log('添加items成功'+result3);
+    //           });
+    //         }
+    //       });
+    //     });
         
-      });
+    //   });
 
-    });
+    // });
   },
 
   // called every frame
-  update: function (dt) {
+  update (dt) {
   },
 
-  createShops: function () {
+  createShops () {
     LCManager.share().login('hty', '123456', (isSuccess, result) => {
       cc.log('loginfinish');
       LCManager.share().queryWithObjectName('Shop', null, false, (isSuccess, result1) => {
@@ -59,15 +59,16 @@ cc.Class({
       });
     });
   },
-  btnClicked: function (eventa, eventData) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState == 4 && (xhr.status >= 200 && xhr.status < 400)) {
-        var response = xhr.responseText;
-        console.log(response);
-      }
-    };
-    xhr.open("GET", "", true);
-    xhr.send();
+  btnClicked (eventa, eventData) {
+    cc.director.loadScene('GameTest');
+    // var xhr = new XMLHttpRequest();
+    // xhr.onreadystatechange = function () {
+    //   if (xhr.readyState == 4 && (xhr.status >= 200 && xhr.status < 400)) {
+    //     var response = xhr.responseText;
+    //     console.log(response);
+    //   }
+    // };
+    // xhr.open("GET", "", true);
+    // xhr.send();
   }
 });
