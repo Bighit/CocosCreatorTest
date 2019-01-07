@@ -51,7 +51,13 @@ cc.Class({
         // cc.log(this.cardModel.cardId+this.cardModel.title);
         // cc.log(this.cardModel.cardId);
         cc.log(this.cardModel);
-
+        if(this.cardModel.cardId == 0){
+            this.node.color = cc.Color.RED;
+        }else if(this.cardModel.cardId == 1){
+            this.node.color = cc.Color.GREEN;
+        }else {
+            this.node.color = cc.Color.BLUE;
+        }
     },
 
     update (dt) {

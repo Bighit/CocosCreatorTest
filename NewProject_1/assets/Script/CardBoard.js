@@ -66,6 +66,7 @@ cc.Class({
         }
 
     },
+
     handleItemsArray(item) {
 
         var cardModel = new CardModel();
@@ -101,8 +102,14 @@ cc.Class({
 
         card.on(cc.Node.EventType.TOUCH_END, function (event) {
             cc.log(this.cardArray.indexOf(card));
+            card.removeFromParent();
         }, this);
     },
+    createCardsWithCount(count){
+        for (let index = 0; index < count; index++) {
+                    
+        }
+    }
     checkAndClearCard() {
 
     }
