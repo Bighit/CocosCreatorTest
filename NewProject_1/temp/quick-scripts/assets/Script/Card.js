@@ -9,40 +9,50 @@ var _CardModel = require('CardModel');
 cc.Class({
     extends: cc.Component,
     name: 'Card',
+
     properties: {
-        titleLabel: cc.RichText,
-        cardModel: {
-            default: null,
-            type: _CardModel.CardModel
-            // foo: {
-            //     // ATTRIBUTES:
-            //     default: null,        // The default value will be used only when the component attaching
-            //                           // to a node for the first time
-            //     type: cc.SpriteFrame, // optional, default is typeof default
-            //     serializable: true,   // optional, default is true
-            // },
-            // bar: {
-            //     get () {
-            //         return this._bar;
-            //     },
-            //     set (value) {
-            //         this._bar = value;
-            //     }
-            // },
-        } },
-    onLoad: function onLoad() {
-        // self
+        titleLabel: cc.RichText
+
+        // foo: {
+        //     // ATTRIBUTES:
+        //     default: null,        // The default value will be used only when the component attaching
+        //                           // to a node for the first time
+        //     type: cc.SpriteFrame, // optional, default is typeof default
+        //     serializable: true,   // optional, default is true
+        // },
+        // bar: {
+        //     get () {
+        //         return this._bar;
+        //     },
+        //     set (value) {
+        //         this._bar = value;
+        //     }
+        // },
     },
+    ctor: function ctor() {
+        this.cardModel = null;
+        cc.log('cardctor');
+    },
+    init: function init(model) {
+        this.cardModel = model;
+        cc.log(this.cardModel.cardId + this.cardModel.title);
+    },
+    reuse: function reuse() {},
 
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
 
-    start: function start() {}
-}
+    onLoad: function onLoad() {
+        // cc.log(this.cardModel.cardId+this.cardModel.title);
+        // cc.log(this.cardModel.cardId);
+        cc.log(this.cardModel);
+    },
+    update: function update(dt) {
+        // cc.log(this.cardModel);
 
-// update (dt) {},
-); // Learn cc.Class:
+    }
+}); // Learn cc.Class:
 //  - [Chinese] http://www.cocos.com/docs/creator/scripting/class.html
 //  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/class/index.html
 // Learn Attribute:

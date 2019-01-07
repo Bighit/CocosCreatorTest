@@ -11,12 +11,10 @@ import {CardModel} from 'CardModel';
 cc.Class({
     extends: cc.Component,
     name:'Card',
+    
     properties: {
         titleLabel:cc.RichText,
-        cardModel:{
-            default:null,
-            type:CardModel,
-        }
+        
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -33,16 +31,31 @@ cc.Class({
         //     }
         // },
     },
-    onLoad(){
-        // self
+    ctor(){
+       this.cardModel = null; 
+       cc.log('cardctor');
+    },
+    init(model){
+        this.cardModel = model;
+        cc.log(this.cardModel.cardId+this.cardModel.title);
+
+    },
+    reuse(){
+
     },
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
 
-    start () {
+    onLoad () {
+        // cc.log(this.cardModel.cardId+this.cardModel.title);
+        // cc.log(this.cardModel.cardId);
+        cc.log(this.cardModel);
 
     },
 
-    // update (dt) {},
+    update (dt) {
+        // cc.log(this.cardModel);
+
+    },
 });

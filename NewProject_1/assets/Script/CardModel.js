@@ -10,37 +10,21 @@
 
 var CardModel = cc.Class({
     name : 'CardModel',
-    properties: {
-        type:0,
-        cardId:0,
-        imageUrl:"",
-        title:"",
-        desc:"",
-
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
+    ctor(){
+        this.type = 0;
+        this.cardId = 0;
+        this.imageUrl ="";
+        this.title ="";
+        this.desc ="";
     },
-
+    
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
 
-    start () {
+    // start () {
 
-    },
+    // },
 
     // update (dt) {},
 });
