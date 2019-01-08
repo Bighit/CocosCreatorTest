@@ -59,7 +59,15 @@ cc.Class({
             this.node.color = cc.Color.BLUE;
         }
     },
-
+    normalAppearAnimation(startPosition,endPosition,duringTime,delayTime){
+        cc.log('cardappear');
+        this.node.position = startPosition;
+        var action = cc.sequence(
+            cc.delayTime(delayTime),
+            cc.moveTo(duringTime,endPosition).easing(cc.easeBackOut())
+        );
+        this.node.runAction(action);
+    },
     update (dt) {
         // cc.log(this.cardModel);
 

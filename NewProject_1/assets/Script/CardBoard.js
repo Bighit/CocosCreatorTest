@@ -51,17 +51,24 @@ cc.Class({
                 title: 'title',
                 probability: 0.5,
             }];
+            this.cardWidth = cc.winSize.width/this.cardCount;
         //生成概率数组
         this.probabilityArray = [];
         this.itemsArray.forEach(element => {
             let prob = element.probability;
             this.probabilityArray.push(prob);
         }, this);
-        cc.log(this.probabilityArray);
+        
         //初始化缓存池
         this.cardPool = new cc.NodePool('Card');
         this.createCardsWithCount(this.cardCount, false);
     },
+
+    /**
+     * 为对应下标生成一个卡片的数据，会根据规则规避种类，如果全随机则忽略
+     * @param {*} index 生成数据的下标
+     * @param {*} allRandom 是否全随机
+     */
 
     getCardModelAtIndex(index, allRandom) {
 
@@ -79,13 +86,9 @@ cc.Class({
         //得到元数据
         var item = this.itemsArray[index];
         var cardModel = new CardModel();
-        cc.log('ppp1' + item);
-
 
         if (!allRandom && this.cardArray.length > 1) {        //去重 重新随机
-            let card1 = this.cardArray[this.cardArray.length - 2];
-            let card2 = this.cardArray[this.cardArray.length - 1];
-            if ((card1.getComponent('Card').cardModel.cardId == card2.getComponent('Card').cardModel.cardId) && index == card1.getComponent('Card').cardModel.cardId) {
+            if ((this.cardModelAt(this.cardArray.length - 2) == this.cardModelAt(this.cardArray.length - 1)) && index == this.cardModelAt(this.cardArray.length - 2)) {
                 tempProb = tempProb * (1 - this.probabilityArray[index]);
                 var tempProbabilityArray = this.probabilityArray.concat();
                 var tempItemsArray = this.itemsArray.concat();
@@ -103,7 +106,6 @@ cc.Class({
 
             }
         }
-        cc.log('ppp' + item);
 
         cardModel.cardId = this.itemsArray.indexOf(item);
         cardModel.type = item.type;
@@ -113,6 +115,11 @@ cc.Class({
 
         return cardModel;
     },
+     /**
+     * 创建一张卡片
+     * @param {*} cardModel 卡片数据
+     * @returns card
+     */
     createOneCardWithCardModel(cardModel) {
         //生成卡片
         var card = null;
@@ -127,17 +134,70 @@ cc.Class({
 
         card.on(cc.Node.EventType.TOUCH_END, function (event) {
             cc.log(this.cardArray.indexOf(card));
-            card.removeFromParent();
+            this.checkAndClearCard(this.cardArray.indexOf(card));
         }, this);
+        return card;
     },
+    /**
+     * 创建对应数目的卡片
+     * @param {*} count 数量
+     * @param {*} allRandom 是否随机
+     */
     createCardsWithCount(count, allRandom) {
         for (let index = 0; index < count; index++) {
             let cardModel = this.getCardModelAtIndex(index, allRandom);
-            this.createOneCardWithCardModel(cardModel);
+            let card = this.createOneCardWithCardModel(cardModel);
+            card.getComponent('Card').normalAppearAnimation(cc.v2(cc.winSize.width+this.cardWidth,0),cc.v2(this.cardWidth*(index+1),0),0.5,0.02*index);
+             
         }
     },
-    checkAndClearCard() {
 
+    checkAndClearCard(index) {
+
+        let removeCardIdArray = [];
+
+        if(index){
+            let cardId = null;
+            do {
+                cardId = this.cardModelAt(index).cardId;
+                index--;
+            } while (this.cardModelAt(index).cardId == cardId&&index>=0);
+            index += 1;
+            do {
+                //todo
+                removeCardIdArray.push(this.cardModelAt(index).cardId);
+                let card = this.cardArray[index];
+                card.removeFromParent();
+                index++;
+            } while (this.cardModelAt(index).cardId == cardId&&index<this.cardArray.length);
+        }else{
+            let tempCardArray = [];
+            let cardId = null;
+
+            for (let index in this.cardArray) {
+                var index2 = index;
+                do {
+                    cardId = this.cardModelAt(index2).cardId;
+                    let card = this.cardArray[index2];
+                    tempCardArray.push(card);
+                    index2++;
+                } while (this.cardModelAt(index2).cardId == cardId&&tempCardArray.length==NUMBER_OF_REMOVALS);
+                if(tempCardArray.length>= NUMBER_OF_REMOVALS){
+                    break;
+                }else{
+                    tempCardArray.splice(0,tempCardArray.length);
+                }
+            }
+            for(let index in tempCardArray){
+                let card = tempCardArray[index];
+                removeCardIdArray.push(card.getComponent('Card').cardModel.cardId);
+                card.removeFromParent();
+            }
+        }
+        cc.log(removeCardIdArray);
+    },
+    cardModelAt(index){
+        return this.cardArray[index].getComponent('Card').cardModel;
     }
     // update (dt) {},
 });
