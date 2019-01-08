@@ -15,14 +15,14 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        
+
         cardCount: 0,
         cardPrefab: cc.Prefab
 
     },
-    ctor(){
+    ctor() {
         this.itemsArray = Global.itemsArray;
-        this.cardArray=[];
+        this.cardArray = [];
     },
     // LIFE-CYCLE CALLBACKS:
 
@@ -31,64 +31,89 @@ cc.Class({
     onLoad() {
         this.itemsArray = [
             {
-            type:0,
-            url:'aa',
-            desc:'descdesc',
-            title:'title',
-            probability: 0.2,
-        },
-        {
-            type:0,
-            url:'bb',
-            desc:'descdesc',
-            title:'title',
-            probability:0.3,
-        },
-        {
-            type:0,
-            url:'cc',
-            desc:'descdesc',
-            title:'title',
-            probability:0.5,
-        }];
+                type: 0,
+                url: 'aa',
+                desc: 'descdesc',
+                title: 'title',
+                probability: 0.2,
+            },
+            {
+                type: 0,
+                url: 'bb',
+                desc: 'descdesc',
+                title: 'title',
+                probability: 0.3,
+            },
+            {
+                type: 0,
+                url: 'cc',
+                desc: 'descdesc',
+                title: 'title',
+                probability: 0.5,
+            }];
         //生成概率数组
-        this.probabilityArray = [0];
+        this.probabilityArray = [];
         this.itemsArray.forEach(element => {
-            var probability = this.probabilityArray[this.probabilityArray.length - 1];
             let prob = element.probability;
-            this.probabilityArray.push(prob + probability);
-        },this);
+            this.probabilityArray.push(prob);
+        }, this);
         cc.log(this.probabilityArray);
         //初始化缓存池
         this.cardPool = new cc.NodePool('Card');
-        for (let i = 0; i < this.cardCount; ++i) {
-            this.createOneCard();
-        }
-
+        this.createCardsWithCount(this.cardCount, false);
     },
 
-    handleItemsArray(item) {
+    getCardModelAtIndex(index, allRandom) {
 
+        //随机
+        var tempProb = Math.random();
+        var index = 0;
+        var sumProb = 0;
+        for (let tIndex in this.probabilityArray) {
+            sumProb += this.probabilityArray[tIndex];
+            if (tempProb < sumProb) {
+                index = tIndex;
+                break;
+            }
+        }
+        //得到元数据
+        var item = this.itemsArray[index];
         var cardModel = new CardModel();
+        cc.log('ppp1' + item);
+
+
+        if (!allRandom && this.cardArray.length > 1) {        //去重 重新随机
+            let card1 = this.cardArray[this.cardArray.length - 2];
+            let card2 = this.cardArray[this.cardArray.length - 1];
+            if ((card1.getComponent('Card').cardModel.cardId == card2.getComponent('Card').cardModel.cardId) && index == card1.getComponent('Card').cardModel.cardId) {
+                tempProb = tempProb * (1 - this.probabilityArray[index]);
+                var tempProbabilityArray = this.probabilityArray.concat();
+                var tempItemsArray = this.itemsArray.concat();
+                tempProbabilityArray.splice(index, 1);
+                tempItemsArray.splice(index, 1);
+                sumProb = 0;
+                for (let tIndex in tempProbabilityArray) {
+                    sumProb += tempProbabilityArray[tIndex];
+                    if (tempProb < sumProb) {
+                        index = tIndex;
+                        item = tempItemsArray[index];
+                        break;
+                    }
+                }
+
+            }
+        }
+        cc.log('ppp' + item);
+
         cardModel.cardId = this.itemsArray.indexOf(item);
         cardModel.type = item.type;
         cardModel.imageUrl = item.url;
         cardModel.title = item.title;
         cardModel.desc = item.desc;
+
         return cardModel;
     },
-    createOneCard() {
-        //随机得到cardModel
-        var tempProb = Math.random();
-        var index = 0;
-        for (let tIndex in this.probabilityArray) {
-            if (tempProb < this.probabilityArray[tIndex]) {
-                index = tIndex - 1;
-                break;
-            }
-        }
-        let item = this.itemsArray[index];
-        var cardModel = this.handleItemsArray(item);
+    createOneCardWithCardModel(cardModel) {
         //生成卡片
         var card = null;
         if (this.cardPool.size() > 0) {
@@ -105,11 +130,12 @@ cc.Class({
             card.removeFromParent();
         }, this);
     },
-    createCardsWithCount(count){
+    createCardsWithCount(count, allRandom) {
         for (let index = 0; index < count; index++) {
-                    
+            let cardModel = this.getCardModelAtIndex(index, allRandom);
+            this.createOneCardWithCardModel(cardModel);
         }
-    }
+    },
     checkAndClearCard() {
 
     }
