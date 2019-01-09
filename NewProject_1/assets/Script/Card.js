@@ -33,11 +33,11 @@ cc.Class({
     },
     ctor(){
        this.cardModel = null; 
-       cc.log('cardctor');
+    //    cc.log('cardctor');
     },
     init(model){
         this.cardModel = model;
-        cc.log(this.cardModel.cardId+this.cardModel.title);
+        // cc.log(this.cardModel.cardId+this.cardModel.title);
 
     },
     reuse(){
@@ -50,7 +50,7 @@ cc.Class({
     onLoad () {
         // cc.log(this.cardModel.cardId+this.cardModel.title);
         // cc.log(this.cardModel.cardId);
-        cc.log(this.cardModel);
+        // cc.log(this.cardModel);
         if(this.cardModel.cardId == 0){
             this.node.color = cc.Color.RED;
         }else if(this.cardModel.cardId == 1){
@@ -60,7 +60,7 @@ cc.Class({
         }
     },
     normalAppearAnimation(startPosition,endPosition,duringTime,delayTime){
-        cc.log('cardappear');
+        // cc.log('cardappear');
         this.node.position = startPosition;
         var action = cc.sequence(
             cc.delayTime(delayTime),
