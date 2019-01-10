@@ -62,13 +62,23 @@ cc.Class({
         //初始化缓存池
         this.cardPool = new cc.NodePool('Card');
         for(let i =0 ;i<20; i++){
-            this.cardPool.put(cc.instantiate(this.cardPrefab));
+            let card = cc.instantiate(this.cardPrefab);
+            card.on(cc.Node.EventType.TOUCH_END, touchCard, this);
+            this.cardPool.put(card);
+
         }
         //
         this.createCardsWithCount(0,this.cardCount, false);
         this.adjustCardsPosition();
     },
-
+    touchCard(){
+        // function (event) {
+            cc.log('点击' + this.cardArray.indexOf(card));
+            this.checkAndClearCard(false, this.cardArray.indexOf(card));
+            // this.adjustCardsPosition();
+            this.refillCard();
+        // }
+    }
     /**
      * 为对应下标生成一个卡片的数据，会根据规则规避种类，如果全随机则忽略
      * @param {*} index 生成数据的下标
@@ -97,7 +107,6 @@ cc.Class({
             let tcardId2 = this.cardModelAt(this.cardArray.length - 1).cardId;
             //去重 重新随机
             if (tcardId1 == tcardId2 && index == tcardId2) {
-                cc.log('去重');
                 tempProb = tempProb * (1 - this.probabilityArray[index]);
                 var tempProbabilityArray = this.probabilityArray.concat();
                 var tempItemsArray = this.itemsArray.concat();
@@ -137,14 +146,11 @@ cc.Class({
             card = this.cardPool.get();
         } else {
             card = cc.instantiate(this.cardPrefab);
+            card.on(cc.Node.EventType.TOUCH_END, touchCard, this);
         }
         card.getComponent('Card').init(cardModel);
         card.parent = this.node;
-        card.on(cc.Node.EventType.TOUCH_END, function (event) {
-            cc.log('点击' + this.cardArray.indexOf(card));
-            this.checkAndClearCard(false, this.cardArray.indexOf(card));
-            this.refillCard();
-        }, this);
+        
         return card;
     },
     /**
@@ -176,10 +182,7 @@ cc.Class({
                 //todo
                 cardId = this.cardModelAt(currentIndex).cardId;
                 let card = this.cardArray[currentIndex];
-                // this.cardArray.splice(index,1);
-                // card.removeFromParent();
                 removeCardArray.push(card);
-                // this.cardPool.put(card);
                 currentIndex++;
             } while (currentIndex < this.cardArray.length && this.cardModelAt(currentIndex).cardId == cardId);
         } else {
@@ -201,12 +204,11 @@ cc.Class({
             }  
         }
         for (let i in removeCardArray) {
-            let card = removeCardArray[i];            
-            this.cardArray.splice(this.cardArray.indexOf(card),1);
-            card.removeFromParent(true);
+            let card = removeCardArray[i];  
             this.cardPool.put(card);
+            this.cardArray.splice(this.cardArray.indexOf(card),1);
+
         }
-        // cc.log(removeCardIdArray);
     },
     adjustCardsPosition() {
         for(let index = 0; index<this.cardArray.length;index++){
@@ -216,7 +218,6 @@ cc.Class({
     },
     refillCard() {
         this.createCardsWithCount(this.cardArray.length,this.cardCount,true);
-        cc.log(this.cardArray.length);
         this.adjustCardsPosition();
     },
     cardModelAt(index) {

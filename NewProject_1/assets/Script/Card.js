@@ -41,15 +41,16 @@ cc.Class({
 
     },
     reuse(){
+        
+    },
+    unuse(){
 
     },
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
-
-    onLoad () {
-        // cc.log(this.cardModel.cardId+this.cardModel.title);
-        // cc.log(this.cardModel.cardId);
+    onEnable(){
+        cc.log('cardid'+this.cardModel.cardId);
         // cc.log(this.cardModel);
         if(this.cardModel.cardId == 0){
             this.node.color = cc.Color.RED;
@@ -58,6 +59,15 @@ cc.Class({
         }else {
             this.node.color = cc.Color.BLUE;
         }
+
+    },
+    onLoad () {
+        // cc.log(this.cardModel.cardId+this.cardModel.title);
+        
+    },
+    start(){
+        cc.log('cardid'+this.cardModel.cardId);
+
     },
     normalAppearAnimation(startPosition,endPosition,duringTime,delayTime){
         // cc.log('cardappear');
