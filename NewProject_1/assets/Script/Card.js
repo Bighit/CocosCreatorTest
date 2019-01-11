@@ -74,9 +74,13 @@ cc.Class({
         this.node.position = startPosition;
         var action = cc.sequence(
             cc.delayTime(delayTime),
-            cc.moveTo(duringTime,endPosition).easing(cc.easeBackOut())
+            cc.moveTo(duringTime,endPosition).easing(cc.easeBackOut()),
+            cc.callFunc(this.postEvent, this, null)
         );
         this.node.runAction(action);
+    },
+    postEvent(){
+        this.node.dispatchEvent( new cc.Event.EventCustom('AppearAnimationFinishEvent', true));
     },
     update (dt) {
         // cc.log(this.cardModel);
